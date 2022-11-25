@@ -12,6 +12,6 @@ send_locate = KeyboardButton("Отправить местоположение �
 form_button = KeyboardButton("Редактирование формы 📨", web_app=wi.web_edit_form)
 back_button = KeyboardButton("Назад 🔙")
 
-kb_form_btn.add(InlineKeyboardButton(text="Заполнить форму", web_app=wi.web_app, callback_data='form'))
+kb_form_btn.add(InlineKeyboardButton(text="Заполнить форму", web_app=wi.web_app))
 kb_reply.add(sos_button).add(form_button)
 kb_sos.add(send_locate, back_button)
