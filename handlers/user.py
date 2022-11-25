@@ -9,8 +9,20 @@ from keyboards import user
 
 async def start_command_handler(message: types.Message):
     """ Обработчик команды /start"""
+    # TODO Сделать проверку на наличие tg_id в базе
+    """ tg_id_temp = None
+        tg_id_base = []
+        if tg_id_temp in tg_id_base:
+            pass
+        else:
+            await message.answer(f"Выберите, что вас интересует:", reply_markup=user.kb_reply)
+    """
     await message.answer(f"Здравствуйте, {message.from_user.full_name}!\n"
-                         f"Выберите, что вас интересует:", reply_markup=user.kb_reply)
+                         "Для заполнения формы, нажмите на кнопку ниже:", reply_markup=user.kb_form_btn)
+
+
+async def after_form_handler(web_app_message):
+    await web_app_message.answer("Выберите, что вас интересует:", reply_markup=user.kb_reply)
 
 
 async def sos_command_handler(message: types.Message):
@@ -40,5 +52,6 @@ def register_handlers(dp: Dispatcher) -> None:
 
     dp.register_message_handler(start_command_handler, commands=["start"])
     dp.register_message_handler(locate_command_handler, content_types=['location'])
+    dp.register_message_handler(after_form_handler, content_types=['web_app_data'])
     dp.register_message_handler(sos_command_handler, Text(equals="🆘 ❗МНЕ НУЖНА ПОМОЩЬ!❗🆘"))
     dp.register_message_handler(back_handler, Text(equals="Назад 🔙"))

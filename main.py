@@ -18,8 +18,7 @@ basicConfig(level=INFO)
 
 async def on_startup(_) -> None:
     """ Функция, срабатывающая при старте бота """
-    # Метод, создающий кнопку сбоку от ввода
-    await bot.set_chat_menu_button(menu_button=MenuButtonWebApp(text="Форма", web_app=wi.web_app))
+    pass
 
 
 async def on_shutdown(_) -> None:
