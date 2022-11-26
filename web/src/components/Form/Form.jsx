@@ -6,9 +6,9 @@ export const Form = () => {
   const [university, setUniversity] = useState("Институт 1");
   const [group, setGroup] = useState("Группа 1 института 1");
   const [extraGroup, setExtraGroup] = useState("");
-  const [surname, setSurname] = useState("");
-  const [name, setName] = useState("");
-  const [patronymic, setPatronymic] = useState("");
+  const [secondName, setSecondName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setlastName] = useState("");
   const [location, setLocation] = useState(
     "В главном корпусе (Университетская, 33)"
   );
@@ -60,17 +60,27 @@ export const Form = () => {
   const { tg } = useTelegram();
 
   const onSendData = useCallback(() => {
-    // TODO
     const data = {
-      university,
-      group,
-      name,
-      surname,
-      patronymic,
-      location,
+      "user_university": university,
+      "user_group": group,
+      "user_extra_group": extraGroup,
+      "user_first_name": firstName,
+      "user_second_name": secondName,
+      "user_last_name": lastName,
+      "user_location": location,
+      "user_extra_location": extraLocation,
     };
     tg.sendData(JSON.stringify(data));
-  }, [university, group, name, surname, patronymic, location]);
+  }, [
+    university,
+    group,
+    firstName,
+    secondName,
+    lastName,
+    location,
+    extraGroup,
+    extraLocation,
+  ]);
 
   useEffect(() => {
     tg.onEvent("mainButtonClicked", onSendData);
@@ -89,25 +99,16 @@ export const Form = () => {
     if (
       !university ||
       !group ||
-      !name ||
-      !surname ||
-      !patronymic ||
+      !firstName ||
+      !secondName ||
+      !lastName ||
       !location
     ) {
       tg.MainButton.hide();
     } else {
       tg.MainButton.show();
     }
-  }, [
-    university,
-    group,
-    name,
-    surname,
-    patronymic,
-    location,
-    extraGroup,
-    extraLocation,
-  ]);
+  }, [university, group, firstName, secondName, lastName, location]);
 
   const onChangeUniversity = (e) => {
     setUniversity(e.target.value);
@@ -121,16 +122,16 @@ export const Form = () => {
     setExtraGroup(e.target.value);
   };
 
-  const onChangeSurname = (e) => {
-    setSurname(e.target.value);
+  const onChangeSecondName = (e) => {
+    setSecondName(e.target.value);
   };
 
-  const OnChangeName = (e) => {
-    setName(e.target.value);
+  const OnChangeFirstName = (e) => {
+    setFirstName(e.target.value);
   };
 
-  const OnChangePatronymic = (e) => {
-    setPatronymic(e.target.value);
+  const OnChangeLastName = (e) => {
+    setlastName(e.target.value);
   };
 
   const onChangeLocation = (e) => {
@@ -150,14 +151,14 @@ export const Form = () => {
         onChange={onChangeUniversity}
         className={"select"}
       >
-        {keys.map((name, index) => {
-          return <option key={index}>{name}</option>;
+        {keys.map((firstName, index) => {
+          return <option key={index}>{firstName}</option>;
         })}
       </select>
       <span className={"hint"}>Выберите группу</span>
       <select value={group} onChange={onChangeGroup} className={"select"}>
-        {universities.get(university).map((name, index) => {
-          return <option key={index}>{name}</option>;
+        {universities.get(university).map((firstName, index) => {
+          return <option key={index}>{firstName}</option>;
         })}
       </select>
       {group === "Другая" && (
@@ -173,22 +174,22 @@ export const Form = () => {
         className={"input"}
         type="text"
         placeholder={"Фамилия"}
-        value={surname}
-        onChange={onChangeSurname}
+        value={secondName}
+        onChange={onChangeSecondName}
       />
       <input
         className={"input"}
         type="text"
         placeholder={"Имя"}
-        value={name}
-        onChange={OnChangeName}
+        value={firstName}
+        onChange={OnChangeFirstName}
       />
       <input
         className={"input"}
         type="text"
         placeholder={"Отчество"}
-        value={patronymic}
-        onChange={OnChangePatronymic}
+        value={lastName}
+        onChange={OnChangeLastName}
       />
       <span className={"hint"}>Выберите свое местоположение</span>
       <select value={location} onChange={onChangeLocation} className={"select"}>

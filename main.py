@@ -1,11 +1,9 @@
 from logging import basicConfig, INFO
 from aiogram import Bot, Dispatcher, executor
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
-from aiogram.types.menu_button import MenuButtonWebApp
 
 import config
 from handlers import user
-from keyboards import webinfo as wi
 
 mem_storage = MemoryStorage()
 
@@ -17,22 +15,21 @@ basicConfig(level=INFO)
 
 
 async def on_startup(_) -> None:
-    """ Функция, срабатывающая при старте бота """
+    """Функция, срабатывающая при старте бота"""
     pass
 
 
 async def on_shutdown(_) -> None:
-    """ Функция, срабатывающая при завершении бота """
+    """Функция, срабатывающая при завершении бота"""
     pass
 
 
 def main() -> None:
-    """ Точка входа """
+    """Точка входа"""
     user.register_handlers(dp)  # Регистрируем обработчики из файла user
     executor.start_polling(
-        dp, skip_updates=True,
-        on_startup=on_startup,
-        on_shutdown=on_shutdown)
+        dp, skip_updates=True, on_startup=on_startup, on_shutdown=on_shutdown
+    )
 
 
 if __name__ == "__main__":
